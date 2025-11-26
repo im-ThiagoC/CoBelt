@@ -4,11 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const LoginPage = async () => {
-	await requireUnAuth();
+  await requireUnAuth();
 
-	return (
-		<LoginForm />
-	);
-}
+  return <LoginForm />;
+};
 
 export default LoginPage;
