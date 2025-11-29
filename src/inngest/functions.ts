@@ -1,6 +1,7 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
+import * as Sentry from "@sentry/nextjs";
 import { generateText } from "ai";
 import { inngest } from "./client";
 
@@ -14,6 +15,10 @@ export const executeAi = inngest.createFunction(
   async ({ event, step }) => {
     await step.sleep("pretend", "5s");
 
+    Sentry.logger.warn("User triggered test log", {
+      log_source: "sentry_test",
+    });
+
     const { steps: geminiSteps } = await step.ai.wrap(
       "gemini-generate-text",
       generateText,
@@ -22,6 +27,11 @@ export const executeAi = inngest.createFunction(
         prompt: "Generate a short motivational quote.",
         system:
           "You are a helpful assistant that generates text based on user prompts.",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
@@ -29,10 +39,15 @@ export const executeAi = inngest.createFunction(
       "openai-generate-text",
       generateText,
       {
-        model: openAI("gpt-5-mini"),
+        model: openAI("gpt-4o"),
         prompt: "Generate a short motivational quote.",
         system:
           "You are a helpful assistant that generates text based on user prompts.",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 
@@ -44,6 +59,11 @@ export const executeAi = inngest.createFunction(
         prompt: "Generate a short motivational quote.",
         system:
           "You are a helpful assistant that generates text based on user prompts.",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       },
     );
 

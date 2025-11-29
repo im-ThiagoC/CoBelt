@@ -16,6 +16,9 @@ const Home = () => {
       onSuccess: () => {
         toast.success("AI executed successfully");
       },
+      onError: (error) => {
+        toast.error(`Error executing AI: ${error.message}`);
+      },
     }),
   );
 
